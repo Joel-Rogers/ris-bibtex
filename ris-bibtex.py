@@ -112,6 +112,8 @@ def endpage(right, ep):
 def date(right, yr):
 	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
 		'Sep', 'Oct', 'Nov', 'Dec']
+	if len(right) > 10:
+		right = right[:10]
 	if yr is "":
 		yr = right[:4]
 		monthn = right[5:7]
@@ -159,6 +161,8 @@ def abstract(right, ab):
 	return ab
 	
 def doi(right, do):
+	if "doi:" in right:
+		right = (right[4:]).lstrip()
 	if do is "":
 		do = right
 	elif right != do:
@@ -185,10 +189,10 @@ def test_value(left, right, ty, key, au, au1, t1, j1, vl, IS, sp, ep, yr, mnth, 
 	do, sn, ur, end_file):
 	possauth = ["AU", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A0"]
 	posstitle = ["T1", "TI"]
-	possjourn = ["J1", "JF", "J2", "T2", "JO"]
-	possdate = ["Y1", "DA"]
+	possjourn = ["J1", "JF", "J2", "T2", "JO", "JA"]
+	possdate = ["Y1", "Y2", "DA", "PY"]
 	possab = ["AB", "N2"]
-	possdo = ["DO", "N1"]
+	possdo = ["DO", "N1", "M3"]
 	if 'TY' in left: 
 		ty = typ(right, ty)
 	elif any(x in left for x in possauth):
@@ -301,7 +305,7 @@ def assemble_content(f):
 	'number = {' + IS + new + 'pages = {' + pages + new + 'year = {' + yr + 
 	new + 'month = {' + mnth + new + 'publisher = {' + pb + 
 	new + 'keywords = {' + kw + new + 'abstract = {' + ab + new + 'doi = {' 
-	+ do + new + 'issn = {' + sn + new + 'url = {' + ur + '}' + '\n}')
+	+ do + new + 'issn = {' + sn + new + 'url = {' + ur + '}' + '\n}\n\n')
 	return content
 	
 	
